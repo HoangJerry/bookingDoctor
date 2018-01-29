@@ -32,6 +32,8 @@ class UserBase(AbstractUser):
 class Appointment(models.Model):
     patient = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='patient')
     doctor = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='doctor')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField()
     
         
 

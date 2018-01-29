@@ -20,8 +20,32 @@
           <th>Contact Us</th>
         </tr>
       </thead>
-
     </table>
+    {% if user.is_authenticated and user.role == 1 %}
+     <table class="table">
+      <thead class="thead-inverse">
+        <tr>
+          <th>My Detail</th>
+          <th>Book Appointment</th>
+          <th>View Booking</th>
+          <th>Reschedule Booking</th>
+          <th>Feedback</th>
+        </tr>
+      </thead>
+    </table>
+    {% endif %}
+    {% if user.is_authenticated and user.role == 2 %}
+     <table class="table">
+      <thead class="thead-inverse">
+        <tr>
+          <th>My Appointment</th>
+          <th>View Custumer</th>
+          <th>Add Description</th>
+          <th>My Detail</th>
+        </tr>
+      </thead>
+    </table>
+    {% endif %}
   {% endblock %}
 
 </div>

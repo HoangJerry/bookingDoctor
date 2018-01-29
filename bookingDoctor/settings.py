@@ -129,3 +129,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = SITE_URL+"static/" 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = SITE_URL+"media/"
+
+# Customizing the login view
+LOGIN_REDIRECT_URL = 'home'
+try:
+    from settings_local import *
+except ImportError as e:
+    print e

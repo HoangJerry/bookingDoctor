@@ -19,13 +19,15 @@ from django.conf.urls.static import static
 from django.conf import settings
 from api import urls as api_urls
 import views
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^api/', include(api_urls)),
     url(r'^$', views.home, name='home'),
-    url(r'^$', views.home, name='login'),
-    url(r'^$', views.home, name='logout'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^$', views.home, name='signup'),
+
 ]
 
 if settings.DEBUG:

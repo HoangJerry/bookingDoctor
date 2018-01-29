@@ -16,9 +16,7 @@ db.sql
 /uploads/
 /static/
 /logs/*.log
-/onedollar/migrations/
-/merchants/migrations/
-/shopapp/migrations/
+/api/migrations/
 
 .project
 .metadata/
@@ -33,3 +31,4 @@ db.sql
 .elasticbeanstalk/
 .idea/
 tags
+

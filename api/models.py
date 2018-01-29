@@ -24,16 +24,32 @@ class UserBase(AbstractUser):
     )
 
     phone = models.CharField(max_length=250, null=True, blank=True)
-    adress = models.CharField(max_length=250, null=True, blank=True)
+    address = models.CharField(max_length=250, null=True, blank=True)
     sex = models.PositiveSmallIntegerField(_('sex'), choices=CONST_GENDERS, \
                                               default=CONST_GENDER_MALE)
     role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
 
-class Appointment(models.Model):
-    patient = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='patient')
-    doctor = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='doctor')
-    creation_date = models.DateTimeField(auto_now_add=True)
-    last_change = models.DateTimeField()
-    
+class Patient(models.Model):
+    user = models.OneToOneField(UserBase, on_delete=models.CASCADE)
+    dob = models.IntegerField(_('DOB'), null=True, blank=True)
+
+class Doctor(models.Model):
+    user = models.OneToOneField(UserBase, on_delete=models.CASCADE)
+    category = models.CharField(max_length=250, null=True, blank=True)
+
+    def __unicode__(self):
+        return u'{} {}'.format(self.user.first_name,self.user.last_name)
+@receiver(post_save, sender=UserBase)
+def create_doctor(sender, instance, created, **kwargs):
+    print instance.role
+    if created:
+        Doctor.objects.create(user=instance)
+
+# class Appointment(models.Model):
+#     patient = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='patient')
+#     doctor = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='doctor')
+#     creation_date = models.DateTimeField(auto_now_add=True)
+#     last_change = models.DateTimeField()
+
         
 

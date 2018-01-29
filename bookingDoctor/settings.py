@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'bookingDoctor',                      # Or path to database file if using sqlite3.
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'softdev',
         'HOST': 'localhost',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default.
     }
@@ -132,3 +132,7 @@ MEDIA_URL = SITE_URL+"media/"
 
 # Customizing the login view
 LOGIN_REDIRECT_URL = 'home'
+try:
+    from settings_local import *
+except ImportError as e:
+    print e

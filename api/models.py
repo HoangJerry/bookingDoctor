@@ -4,6 +4,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+
 from django.contrib.auth.models import AbstractUser
 
 class UserBase(AbstractUser):
@@ -27,29 +29,51 @@ class UserBase(AbstractUser):
     address = models.CharField(max_length=250, null=True, blank=True)
     sex = models.PositiveSmallIntegerField(_('sex'), choices=CONST_GENDERS, \
                                               default=CONST_GENDER_MALE)
-    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, null=True, blank=True)
+    role = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, default=DOCTOR, null=True, blank=True)
+
+    @property
+    def full_name(self):
+        return u'{} {}'.format(self.first_name,self.last_name)
 
 class Patient(models.Model):
     user = models.OneToOneField(UserBase, on_delete=models.CASCADE)
     dob = models.IntegerField(_('DOB'), null=True, blank=True)
+
+    def __unicode__(self):
+        return self.user.full_name
 
 class Doctor(models.Model):
     user = models.OneToOneField(UserBase, on_delete=models.CASCADE)
     category = models.CharField(max_length=250, null=True, blank=True)
 
     def __unicode__(self):
-        return u'{} {}'.format(self.user.first_name,self.user.last_name)
+        return self.user.full_name
+
 @receiver(post_save, sender=UserBase)
 def create_doctor(sender, instance, created, **kwargs):
-    print instance.role
-    if created:
+    if created and instance.role==UserBase.DOCTOR:
         Doctor.objects.create(user=instance)
 
-# class Appointment(models.Model):
-#     patient = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='patient')
-#     doctor = models.ForeignKey(UserBase, on_delete=models.CASCADE, related_name='doctor')
-#     creation_date = models.DateTimeField(auto_now_add=True)
-#     last_change = models.DateTimeField()
+class Appointment(models.Model):
+    patient = models.ForeignKey(Patient, related_name='patient_appointment')
+    doctor = models.ForeignKey(Doctor, related_name='doctor_appointment')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(null=True, blank=True)
+    appointment = models.DateTimeField()
 
-        
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.last_change = timezone.now()
+        super(Appointment, self).save(force_insert, force_update, using, update_fields)
 
+class Treatment(models.Model):
+    patient = models.ForeignKey(Patient, related_name='patient_treatment')
+    doctor = models.ForeignKey(Doctor, related_name='doctor_treatment')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(null=True, blank=True)
+    treatment = models.CharField(max_length=250, null=True, blank=True)
+    treatment_for = models.CharField(max_length=250, null=True, blank=True)
+    dnote = models.CharField(max_length=250, null=True, blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.last_change = timezone.now()
+        super(Treatment, self).save(force_insert, force_update, using, update_fields)

@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
-    url(r'^$', views.home, name='signup'),
+    url(r'^singup/$', views.signup, name='signup'),
 
 ]
 

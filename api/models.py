@@ -37,10 +37,15 @@ class UserBase(AbstractUser):
 
 class Patient(models.Model):
     user = models.OneToOneField(UserBase, on_delete=models.CASCADE)
-    dob = models.IntegerField(_('DOB'), null=True, blank=True)
+    dob = models.DateField(_('DOB'), null=True, blank=True)
 
     def __unicode__(self):
         return self.user.full_name
+
+# @receiver(post_save, sender=UserBase)
+# def create_patient(sender, instance, created, **kwargs):
+#     if created and instance.role==UserBase.PATIENT:
+#         Patient.objects.create(user=instance)
 
 class Doctor(models.Model):
     user = models.OneToOneField(UserBase, on_delete=models.CASCADE)

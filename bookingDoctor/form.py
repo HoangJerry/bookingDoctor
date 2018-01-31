@@ -17,5 +17,5 @@ class AppointmentForm(forms.ModelForm):
 		model = Appointment
 		fields = ('doctor', 'appointment')
 		widgets = {
-            'appointment': forms.DateInput(attrs={'class':'datetime-input'}),
+            'appointment': forms.DateTimeInput(attrs={'id':'datetimepicker4'}),
         }

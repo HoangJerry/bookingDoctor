@@ -12,3 +12,10 @@ class SignUpForm(UserCreationForm):
         model = UserBase
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'phone', 'address', 'sex', 'role' )
 
+class AppointmentForm(forms.ModelForm):
+	class Meta:
+		model = Appointment
+		fields = ('doctor', 'appointment')
+		widgets = {
+            'appointment': forms.DateInput(attrs={'class':'datetime-input'}),
+        }

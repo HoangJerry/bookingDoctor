@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
-
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 
 class UserBase(AbstractUser):
@@ -70,6 +70,8 @@ class Appointment(models.Model):
         self.last_change = timezone.now()
         super(Appointment, self).save(force_insert, force_update, using, update_fields)
 
+    def get_absolute_url(self):
+        return reverse('appointment-detail', kwargs={'pk': self.pk})
 class Treatment(models.Model):
     patient = models.ForeignKey(Patient, related_name='patient_treatment')
     doctor = models.ForeignKey(Doctor, related_name='doctor_treatment')

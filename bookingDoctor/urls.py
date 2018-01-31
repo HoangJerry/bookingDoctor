@@ -27,6 +27,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^singup/$', views.signup, name='signup'),
+    url(r'^appointment/book/$', views.AppointmentBook.as_view(), name='appointment-book'),
+    url(r'^appointment/(?P<pk>[0-9]+)/$', views.AppointmentDetail.as_view(), name='appointment-detail'),
 
 ]
 

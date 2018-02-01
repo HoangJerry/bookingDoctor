@@ -26,7 +26,7 @@
      <table class="table">
       <thead class="thead-inverse">
         <tr>
-          <th>My Detail</th>
+          <th class='{% if request.resolver_match.url_name == "profile" %}active{% endif %}'><a href="{% url 'profile' user.id %}">My Detail</a></th>
           <th class='{% if request.resolver_match.url_name == "appointment-book" %}active{% endif %}'><a href="{% url 'appointment-book' %}">Book Appointment</a></th>
           <th class='{% if request.resolver_match.url_name == "appointment-me" %}active{% endif %}'><a href="{% url 'appointment-me' %}">View Booking</th>
           <th class='{% if request.resolver_match.url_name == "appointment-update" %}active{% endif %}'><a href="{% url 'appointment-update' %}">Reschedule Booking</th>

@@ -43,12 +43,27 @@ def signup(request):
 class ProfileUser(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
     model = UserBase
-    form_class = UpdateForm
+    form_class = EditMultiForm
     template_name = 'profile.html'
+
+    def get_form(self):
+        form = super(ProfileUser, self).get_form()
+        if self.request.user.role == 1:
+            return UserPatientForm(**self.get_form_kwargs())
+        if self.request.user.role ==2:
+            return UserDoctorForm(**self.get_form_kwargs())
 
     def get_success_url(self):
         return u'/profile/%d' % self.request.user.id 
 
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileUser, self).get_form_kwargs()
+        if self.request.user.role == 1:
+            kwargs.update(instance={'patient': self.object.patient,'user': self.object,})
+        if self.request.user.role ==2:
+            kwargs.update(instance={'user': self.object,'doctor': self.object.doctor})
+        return kwargs
 
 class PatientListView(ListView):
     model = Patient

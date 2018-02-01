@@ -130,3 +130,5 @@ class FeebackCreate(CreateView):
         form.instance.patient = self.request.user.patient
         self.object = form.save()
         return super(FeebackCreate, self).form_valid(form)
+
+

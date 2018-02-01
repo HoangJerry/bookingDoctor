@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^appointment/me/$', views.AppointmentMe.as_view(), name='appointment-me'),
     url(r'^appointment/change/$', views.AppointmentUpdate.as_view(), name='appointment-update'),
     url(r'^feedback/$', views.FeebackCreate.as_view(), name='feedback'),
+    # url(r'^detail/user/(?P<pk>[0-9]+)/$', views.DetailUser.as_view(), name='profile'),
 
 
 ]

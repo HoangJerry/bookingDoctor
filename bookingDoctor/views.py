@@ -40,7 +40,8 @@ def signup(request):
     return render(request, 'signup.html', {'signup_form': signup_form})
 
 
-class ProfileUser(UpdateView):
+class ProfileUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
     model = UserBase
     form_class = UpdateForm
     template_name = 'profile.html'
@@ -48,7 +49,6 @@ class ProfileUser(UpdateView):
     def get_success_url(self):
         return u'/profile/%d' % self.request.user.id 
 
-    
 
 class PatientListView(ListView):
     model = Patient

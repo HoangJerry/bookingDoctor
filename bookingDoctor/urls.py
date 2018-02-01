@@ -20,6 +20,8 @@ from django.conf import settings
 from api import urls as api_urls
 import views
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required, permission_required
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^api/', include(api_urls)),
@@ -27,8 +29,10 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^singup/$', views.signup, name='signup'),
+    url(r'^profile/(?P<pk>[0-9]+)/$', views.ProfileUser.as_view(), name='profile'),
     url(r'^appointment/book/$', views.AppointmentBook.as_view(), name='appointment-book'),
     url(r'^appointment/(?P<pk>[0-9]+)/$', views.AppointmentDetail.as_view(), name='appointment-detail'),
+    url(r'^patients/$', views.PatientListView.as_view(), name='patients'),
     url(r'^appointment/me/$', views.AppointmentMe.as_view(), name='appointment-me'),
     url(r'^appointment/change/$', views.AppointmentUpdate.as_view(), name='appointment-update'),
 

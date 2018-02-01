@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from form import *
 from api.models import *
 from django.contrib.auth import authenticate, login
+
 from django.views.generic import TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.list import ListView
@@ -37,6 +38,28 @@ def signup(request):
     else:
         signup_form = SignUpForm()
     return render(request, 'signup.html', {'signup_form': signup_form})
+
+
+class ProfileUser(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    model = UserBase
+    form_class = UpdateForm
+    template_name = 'profile.html'
+
+    def get_success_url(self):
+        return u'/profile/%d' % self.request.user.id 
+
+
+class PatientListView(ListView):
+    model = Patient
+    template_name = 'patients.html'
+    
+    def get_queryset(self):
+        doctor_id = UserBase.objects.filter( id = self.request.user.id )
+        appointment_id = Appointment.objects.filter(doctor_id = 15)
+        patient = Patient.objects.filter( patient_appointment = appointment_id)
+        return patient
+
 
 class AppointmentBook(LoginRequiredMixin, CreateView):
     login_url = '/login/'

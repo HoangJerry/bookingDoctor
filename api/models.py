@@ -42,10 +42,6 @@ class Patient(models.Model):
     def __unicode__(self):
         return self.user.full_name
 
-# @receiver(post_save, sender=UserBase)
-# def create_patient(sender, instance, created, **kwargs):
-#     if created and instance.role==UserBase.PATIENT:
-#         Patient.objects.create(user=instance)
 
 class Doctor(models.Model):
     user = models.OneToOneField(UserBase, on_delete=models.CASCADE)

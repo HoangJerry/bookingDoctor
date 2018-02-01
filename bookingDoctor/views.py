@@ -43,21 +43,35 @@ def signup(request):
 class ProfileUser(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
     model = UserBase
-    form_class = UpdateForm
+    form_class = EditMultiForm
     template_name = 'profile.html'
+
+    def get_form(self):
+        form = super(ProfileUser, self).get_form()
+        if self.request.user.role == UserBase.PATIENT:
+            return UserPatientForm(**self.get_form_kwargs())
+        if self.request.user.role == UserBase.DOCTOR:
+            return UserDoctorForm(**self.get_form_kwargs())
 
     def get_success_url(self):
         return u'/profile/%d' % self.request.user.id 
 
+
+    def get_form_kwargs(self):
+        kwargs = super(ProfileUser, self).get_form_kwargs()
+        if self.request.user.role == UserBase.PATIENT:
+            kwargs.update(instance={'patient': self.object.patient,'user': self.object,})
+        if self.request.user.role == UserBase.DOCTOR:
+            kwargs.update(instance={'user': self.object,'doctor': self.object.doctor})
+        return kwargs
 
 class PatientListView(ListView):
     model = Patient
     template_name = 'patients.html'
     
     def get_queryset(self):
-        doctor_id = UserBase.objects.filter( id = self.request.user.id )
-        appointment_id = Appointment.objects.filter(doctor_id = 15)
-        patient = Patient.objects.filter( patient_appointment = appointment_id)
+        appointment_id = Appointment.objects.filter(doctor_id = self.request.user.doctor.id)
+        patient = Patient.objects.filter( patient_appointment__in = appointment_id)
         return patient
 
 
@@ -105,3 +119,14 @@ class AppointmentUpdate(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return Appointment.objects.filter(patient=self.request.user.patient).order_by('creation_date').last()
+
+class FeebackCreate(CreateView):
+    model = Feedback
+    fields = ['feedback']
+    template_name = 'feedback.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.patient = self.request.user.patient
+        self.object = form.save()
+        return super(FeebackCreate, self).form_valid(form)

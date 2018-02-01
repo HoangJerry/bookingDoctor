@@ -42,3 +42,10 @@
 #menu .active{
   background-color: #ffc107;
 }
+.form-group select.form-control#id_sex, .form-group select.form-control#id_user-sex {
+  height: 34px!important;
+}
+.feedback{
+  
+}
+

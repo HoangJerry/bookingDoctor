@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^patients/$', views.PatientListView.as_view(), name='patients'),
     url(r'^appointment/me/$', views.AppointmentMe.as_view(), name='appointment-me'),
     url(r'^appointment/change/$', views.AppointmentUpdate.as_view(), name='appointment-update'),
+    url(r'^feedback/$', views.FeebackCreate.as_view(), name='feedback'),
+
 
 ]
 

@@ -26,11 +26,11 @@
      <table class="table">
       <thead class="thead-inverse">
         <tr>
-          <th>My Detail</th>
+          <th class='{% if request.resolver_match.url_name == "profile" %}active{% endif %}'><a href="{% url 'profile' user.id %}">My Detail</a></th>
           <th class='{% if request.resolver_match.url_name == "appointment-book" %}active{% endif %}'><a href="{% url 'appointment-book' %}">Book Appointment</a></th>
           <th class='{% if request.resolver_match.url_name == "appointment-me" %}active{% endif %}'><a href="{% url 'appointment-me' %}">View Booking</th>
           <th class='{% if request.resolver_match.url_name == "appointment-update" %}active{% endif %}'><a href="{% url 'appointment-update' %}">Reschedule Booking</th>
-          <th>Feedback</th>
+          <th class='{% if request.resolver_match.url_name == "feedback" %}active{% endif %}'><a href="{% url 'feedback' %}">Feedback</th>
         </tr>
       </thead>
     </table>
@@ -40,9 +40,9 @@
       <thead class="thead-inverse">
         <tr>
           <th class='{% if request.resolver_match.url_name == "appointment-me" %}active{% endif %}'><a href="{% url 'appointment-me' %}">My Appointment</th>
-          <th>View Custumer</th>
+          <th class='{% if request.resolver_match.url_name == "patients" %}active{% endif %}'><a href="{% url 'patients' %}">View Custumer</a></th>
           <th>Add Description</th>
-          <th>My Detail</th>
+          <th class='{% if request.resolver_match.url_name == "profile" %}active{% endif %}'><a href="{% url 'profile' user.id %}">My Detail</a></th>
         </tr>
       </thead>
     </table>

@@ -1,14 +1,9 @@
 {% extends 'base.html' %}
 
 
-{% block stylesheet %}
-<!-- css and js for date piker -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
-{% endblock %}
 {% block content %}
+
 	<h2>Sign up for a free account</h2>
 	<!-- <p class="lead">Select below the type of account you want to create</p> -->
 	<!-- <a href="{% url 'signup' %}" class="btn btn-patient btn-lg" role="button">I'm a patient</a> -->
@@ -84,7 +79,11 @@
 		<button type="submit" class="btn btn-success">Sign up</button>
 	</form>
 
-	<script type="text/javascript">
+	
+{% endblock %}
+
+{% block js_content %}
+<script type="text/javascript">
             $(function () {
                 $('#datetimepicker1').datetimepicker({
                  format: 'DD/MM/YYYY'

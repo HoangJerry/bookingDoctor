@@ -68,6 +68,7 @@ class Appointment(models.Model):
 
     def get_absolute_url(self):
         return reverse('appointment-detail', kwargs={'pk': self.pk})
+        
 class Treatment(models.Model):
     patient = models.ForeignKey(Patient, related_name='patient_treatment')
     doctor = models.ForeignKey(Doctor, related_name='doctor_treatment')
@@ -80,3 +81,17 @@ class Treatment(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         self.last_change = timezone.now()
         super(Treatment, self).save(force_insert, force_update, using, update_fields)
+
+class Schedule(models.Model):    
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_change = models.DateTimeField(null=True, blank=True)
+    note = models.CharField(max_length=250, null=True, blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.last_change = timezone.now()
+        super(Schedule, self).save(force_insert, force_update, using, update_fields)
+
+class Feedback(models.Model):
+    patient = models.ForeignKey(Patient, related_name='patient_feedback')
+    creation_date = models.DateTimeField(auto_now_add=True)
+    feedback = models.TextField()

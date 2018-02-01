@@ -32,3 +32,13 @@
 .btn:hover{
   cursor: pointer;
 }
+#menu{
+  color: red;
+}
+
+#menu .table .thead-inverse a{
+  color: #fff; 
+}
+#menu .active{
+  background-color: #ffc107;
+}

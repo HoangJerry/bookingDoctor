@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+
+{% block stylesheet %}
+<!-- css and js for date piker -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+  <div class="col-lg-4">
+  <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" style="width:80%;" id="profile-image1" class="img-circle img-responsive">
+    <input id="profile-image-upload" class="hidden" type="file">
+    <!--Upload Image Js And Css-->
+  </div>
+  <br>
+  <!-- /input-group -->
+</div>
+<div class="col-lg-offset-1 col-lg-7">
+  <form action="" method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="row">
+      <div class="col-lg-5">
+        {{ field.errors }}
+        <div class="form-group">
+          {{ field.label_tag }}
+            {{ field }}
+        </div>
+    </div>
+    </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-success" value="Update" />
+</form>
+</div>
+  <script>
+  // $(function() {
+  // $('#profile-image1').on('click', function() {
+  // $('#profile-image-upload').click();
+  // });
+  // });
+  </script>
+  <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                 format: 'DD/MM/YYYY'
+              });
+            });
+        </script>
+</div>
+</div>
+
+{% endblock %}
+
+

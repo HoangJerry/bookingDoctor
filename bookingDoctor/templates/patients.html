@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+  <h2>List Patient</h2>
+  <table class="table table-striped">
+  {% if patient_list %}
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for patient in patient_list %}
+      <tr>
+        <td>{{patient.id}}</td>
+        <td>{{patient.user.last_name}}</td>
+        <td>{{patient.patient_appointment}}</td>
+      </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+    {% else %}
+      <p>There are no patient .</p>
+    {% endif %}       
+</div>
+{% endblock %}
+

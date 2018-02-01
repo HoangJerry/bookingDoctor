@@ -6,7 +6,11 @@
 <div class="alert  {% if appointments.0 == appointment %} alert-info {% else %} alert-warning {% endif %}" role="alert">Appointment id: {{ appointment.id }}<br><br>
 Creation date: {{ appointment.creation_date }} *** 
 Last change: {{ appointment.last_change }}<br><br>
+{% if request.user.role == 2 %}
+Patient: <a href="#">{{ appointment.patient}}</a><br>
+{% else %}
 Doctor: {{ appointment.doctor}}<br>
+{% endif %}
 Appointment date: {{ appointment.appointment}}
 </div> 
 {% endfor %}

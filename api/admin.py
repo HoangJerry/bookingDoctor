@@ -78,7 +78,7 @@ class AppointmentForm(forms.ModelForm):
 
 class AppointmentAdmin(admin.ModelAdmin):
     form = AppointmentForm
-    list_display = ('patient','doctor','appointment','creation_date','last_change')
+    list_display = ('id','patient','doctor','appointment','creation_date','last_change')
     list_filter = ('appointment',)
 
     def has_add_permission(self, request):

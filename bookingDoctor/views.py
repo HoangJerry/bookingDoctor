@@ -6,7 +6,10 @@ from form import *
 from api.models import *
 from django.contrib.auth import authenticate, login
 from django.views.generic import TemplateView, DetailView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Create your views here.
 
 
@@ -35,16 +38,19 @@ def signup(request):
         signup_form = SignUpForm()
     return render(request, 'signup.html', {'signup_form': signup_form})
 
-class AppointmentBook(FormView):
+class AppointmentBook(LoginRequiredMixin, CreateView):
+    login_url = '/login/'
     template_name = "appointment_book.html"
-    form_class = AppointmentForm
+    model = Appointment
+    fields = ('doctor', 'appointment')
 
     def form_valid(self, form):
         form.instance.patient = self.request.user.patient
         return super(AppointmentBook,self).form_valid(form)
 
 
-class AppointmentDetail(DetailView):
+class AppointmentDetail(LoginRequiredMixin, DetailView):
+    login_url = '/login/'
     queryset = Appointment.objects.all()
     template_name = 'appointment_detail.html'
     context_object_name = 'appointment'
@@ -56,3 +62,23 @@ class AppointmentDetail(DetailView):
         object.save()
         # Return the object
         return object
+
+class AppointmentMe(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    queryset = Appointment.objects.all()
+    template_name = 'appointment_list.html'
+    context_object_name = 'appointments'
+
+    def get_queryset(self):
+        if self.request.user.role == UserBase.PATIENT:
+            return Appointment.objects.filter(patient=self.request.user.patient).order_by('-creation_date')
+        return Appointment.objects.filter(doctor=self.request.user.doctor).order_by('appointment')
+
+class AppointmentUpdate(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    model = Appointment
+    fields = ('doctor', 'appointment')
+    template_name = "appointment_book.html"
+
+    def get_object(self, queryset=None):
+        return Appointment.objects.filter(patient=self.request.user.patient).order_by('creation_date').last()

@@ -10,6 +10,7 @@
 <div class="container mycontent">
 
   {% block content %}
+  <div id="menu">
     <table class="table">
       <thead class="thead-inverse">
         <tr>
@@ -26,9 +27,9 @@
       <thead class="thead-inverse">
         <tr>
           <th>My Detail</th>
-          <th><a href="{% url 'appointment-book' %}">Book Appointment</a></th>
-          <th>View Booking</th>
-          <th>Reschedule Booking</th>
+          <th class='{% if request.resolver_match.url_name == "appointment-book" %}active{% endif %}'><a href="{% url 'appointment-book' %}">Book Appointment</a></th>
+          <th class='{% if request.resolver_match.url_name == "appointment-me" %}active{% endif %}'><a href="{% url 'appointment-me' %}">View Booking</th>
+          <th class='{% if request.resolver_match.url_name == "appointment-update" %}active{% endif %}'><a href="{% url 'appointment-update' %}">Reschedule Booking</th>
           <th>Feedback</th>
         </tr>
       </thead>
@@ -38,7 +39,7 @@
      <table class="table">
       <thead class="thead-inverse">
         <tr>
-          <th>My Appointment</th>
+          <th class='{% if request.resolver_match.url_name == "appointment-me" %}active{% endif %}'><a href="{% url 'appointment-me' %}">My Appointment</th>
           <th>View Custumer</th>
           <th>Add Description</th>
           <th>My Detail</th>
@@ -46,6 +47,7 @@
       </thead>
     </table>
     {% endif %}
+  </div>
   {% endblock %}
 
 </div>

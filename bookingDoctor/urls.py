@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^singup/$', views.signup, name='signup'),
     url(r'^appointment/book/$', views.AppointmentBook.as_view(), name='appointment-book'),
     url(r'^appointment/(?P<pk>[0-9]+)/$', views.AppointmentDetail.as_view(), name='appointment-detail'),
+    url(r'^appointment/me/$', views.AppointmentMe.as_view(), name='appointment-me'),
+    url(r'^appointment/change/$', views.AppointmentUpdate.as_view(), name='appointment-update'),
 
 ]
 

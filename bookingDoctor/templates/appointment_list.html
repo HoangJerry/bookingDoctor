@@ -1,0 +1,14 @@
+{% extends 'home.html' %}
+
+{% block content %}
+{{ block.super}}
+{% for appointment in appointments %}
+<div class="alert  {% if appointments.0 == appointment %} alert-info {% else %} alert-warning {% endif %}" role="alert">Appointment id: {{ appointment.id }}<br><br>
+Creation date: {{ appointment.creation_date }} *** 
+Last change: {{ appointment.last_change }}<br><br>
+Doctor: {{ appointment.doctor}}<br>
+Appointment date: {{ appointment.appointment}}
+</div> 
+{% endfor %}
+
+{% endblock %}

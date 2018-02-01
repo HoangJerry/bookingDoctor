@@ -79,15 +79,32 @@ class AppointmentForm(forms.ModelForm):
 class AppointmentAdmin(admin.ModelAdmin):
     form = AppointmentForm
     list_display = ('patient','doctor','appointment','creation_date','last_change')
+    list_filter = ('appointment',)
+
+    def has_add_permission(self, request):
+        return False
 
 class TreatmentAdmin(admin.ModelAdmin):
     form = AppointmentForm
     list_display = ('patient','doctor','creation_date','last_change') 
 
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ('patient','feedback','creation_date',) 
+    list_filter = ('creation_date',)
+
+    def has_add_permission(self, request):
+        return False
+
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = ('creation_date','note','last_change',) 
+    list_filter = ('creation_date',)
+    # date_hierarchy = 'creation_date'
 
 # admin.site.register(Patient,PatientAdmin)
 # admin.site.register(Doctor,DoctorAdmin)
 
+admin.site.register(Schedule,ScheduleAdmin)
+admin.site.register(Feedback,FeedbackAdmin)
 admin.site.register(Appointment,AppointmentAdmin)
 admin.site.register(Treatment,TreatmentAdmin)
 admin.site.register(UserBase,UserBaseAdmin)
